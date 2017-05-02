@@ -27,5 +27,8 @@
   "homepage": "https://github.com/codealchemist/websocket-broadcast#readme",
   "dependencies": {
     "ws": "^2.3.1"
+  },
+  "devDependencies": {
+    "standard-focus": "^1.1.2"
   }
 }

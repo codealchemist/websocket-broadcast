@@ -18,7 +18,7 @@ function log () {
 function broadcast (ws, message) {
   clients.map((client) => {
     if (client === ws) return
-    client.send(message, (error) => {})
+    client.send(message, (error) => {}) // eslint-disable-line
   })
 }
 
