@@ -1,0 +1,31 @@
+{
+  "name": "websocket-broadcast",
+  "version": "1.0.0",
+  "description": "Broadcasts received messages over websockets.",
+  "main": "index.js",
+  "bin": {
+    "websocket-broadcast": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "standard",
+    "test-focus": "standard-focus"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codealchemist/websocket-broadcast.git"
+  },
+  "keywords": [
+    "websocket",
+    "broadcast"
+  ],
+  "author": "Alberto Miranda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codealchemist/websocket-broadcast/issues"
+  },
+  "homepage": "https://github.com/codealchemist/websocket-broadcast#readme",
+  "dependencies": {
+    "ws": "^2.3.1"
+  }
+}
