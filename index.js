@@ -44,7 +44,7 @@ wss.on('connection', (ws) => {
   clients.push(ws)
 
   // Send UUID to client.
-  send(ws, {type: 'uuid', value: id})
+  send(ws, {type: 'uuid', data: id})
 
   ws.on('message', (message) => {
     broadcast(ws, message)
