@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const WebSocket = require('ws')
-const port = 9090
+const port = process.env.PORT || 9090
 const uuid = require('uuid/v1')
 const chalk = require('chalk')
 const fs = require('fs')
