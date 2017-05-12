@@ -9,7 +9,6 @@ const wss = new WebSocket.Server({
   perMessageDeflate: false,
   port
 }, onListening)
-const clients = []
 
 // print ascii art
 var artFile = path.join(__dirname, './ascii-art.txt')
@@ -26,14 +25,16 @@ function log () {
 }
 
 function broadcast (ws, message) {
-  clients.map((client) => {
+  wss.clients.forEach((client) => {
     if (client === ws) return
+    if (client.readyState !== WebSocket.OPEN) return
     client.send(message, (error) => {}) // eslint-disable-line
   })
 }
 
 function send (ws, message) {
   const data = JSON.stringify(message)
+  if (ws.readyState !== WebSocket.OPEN) return
   ws.send(data, (error) => {}) // eslint-disable-line
 }
 
@@ -41,7 +42,6 @@ wss.on('connection', (ws) => {
   const host = ws.upgradeReq.headers.host
   const id = uuid()
   log(`NEW client: ID: ${chalk.white(id)} @${chalk.blue(host)}`)
-  clients.push(ws)
 
   // Send UUID to client.
   send(ws, {type: 'uuid', data: id})
