@@ -50,4 +50,13 @@ wss.on('connection', (ws) => {
     broadcast(ws, message)
     log(`MSG from ${host}`, chalk.gray(message))
   })
+
+  ws.on('close', (ws) => {
+    log('client DISCONNECTED')
+    const message = JSON.stringify({
+      type: 'disconnect',
+      message: 'cya'
+    })
+    broadcast(ws, message)
+  })
 })
