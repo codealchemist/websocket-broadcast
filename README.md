@@ -22,9 +22,15 @@ UUID will be sent in a message with type `uuid`, something like this:
 
 `{type: 'uuid', data: 'ed8ef0b0-35ff-11e7-8de4-6bd9049b7aa7'}`
 
+When a client is disconnected a message will be sent as well:
+
+`{type: 'disconnect', message: 'cya'}`
+
 You can disable ID generation by setting the `--noid` modifier:
 
 `websocket-broadcast --noid`
+
+Note that disconnection messages won't be sent when `--noid` is set.
 
 ## Customize port
 

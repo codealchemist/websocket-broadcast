@@ -31,6 +31,15 @@ wss.on('connection', (ws) => {
 
     // Send UUID to client.
     send(ws, {type: 'uuid', data: id})
+
+    ws.on('close', (ws) => {
+      if (verbose) log('client DISCONNECTED')
+      const message = JSON.stringify({
+        type: 'disconnect',
+        message: 'cya'
+      })
+      broadcast(ws, message)
+    })
   }
 
   if (!verbose) return
