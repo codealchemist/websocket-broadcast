@@ -4,10 +4,10 @@
   "description": "Broadcasts received messages over websockets.",
   "main": "index.js",
   "bin": {
-    "websocket-broadcast": "./index.js"
+    "websocket-broadcast": "./src/index.js"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node src/index.js",
     "test": "standard",
     "test-focus": "standard-focus"
   },
@@ -27,6 +27,10 @@
   "homepage": "https://github.com/codealchemist/websocket-broadcast#readme",
   "dependencies": {
     "chalk": "^1.1.3",
+    "clear": "^0.1.0",
+    "cli-cursor": "^2.1.0",
+    "minimist": "^1.2.0",
+    "printii": "^1.0.0",
     "uuid": "^3.0.1",
     "ws": "^2.3.1"
   },
