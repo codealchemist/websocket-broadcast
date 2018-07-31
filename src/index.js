@@ -16,7 +16,11 @@ const identify = !args.noid
 clear()
 printii()
 cursor.hide()
-keyReader.start()
+try {
+  keyReader.start()
+} catch(e) {
+  console.log('Key reader failed:', e.message || 'Sorry.')
+}
 
 // Create websocket server.
 const wss = new WebSocket.Server({ port }, onListening)
