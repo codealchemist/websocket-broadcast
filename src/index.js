@@ -9,7 +9,7 @@ const cursor = require('cli-cursor')
 const printii = require('printii')(__dirname)
 const args = require('minimist')(process.argv.slice(2))
 const keyReader = require('./key-reader')
-const port = args.port || args.p || 3333
+const port = process.env.PORT || args.port || args.p || 3333
 const verbose = !args.nolog
 const identify = !args.noid
 
