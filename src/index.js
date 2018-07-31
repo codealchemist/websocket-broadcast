@@ -78,7 +78,9 @@ function log () {
   // Single line basic info.
   if (!verbose) {
     const message = Array.prototype.join.call(arguments, ' ')
-    process.stdout.clearLine()
+    try {
+      process.stdout.clearLine()
+    } catch(e) {}
     process.stdout.write(`\r${message}\r`)
     return
   }
