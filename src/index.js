@@ -28,8 +28,8 @@ const wss = new WebSocket.Server({ port }, onListening)
 wss.on('connection', (ws) => {
   log(`Total clients: ${chalk.white(wss.clients.size)}`)
 
+  const host = ws.upgradeReq.headers.host
   if (identify) {
-    const host = ws.upgradeReq.headers.host
     const id = uuid()
     if (verbose) log(`NEW client: ID: ${chalk.white(id)} @${chalk.blue(host)}`)
 
