@@ -46,9 +46,9 @@ wss.on('connection', (ws) => {
     })
   }
 
-  if (!verbose) return
   ws.on('message', (message) => {
-    log(`MSG from ${host}`, chalk.gray(message))
+    if (verbose) log(`MSG from ${host}`, chalk.gray(message))
+    broadcast(ws, message)
   })
 })
 
