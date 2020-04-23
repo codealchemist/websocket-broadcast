@@ -16,9 +16,10 @@ clear()
 printii()
 cursor.hide()
 
+// TODO: conditionally use SSL.
 const server = https.createServer({
-  cert: fs.readFileSync('/etc/ssl/ssl.crt'),
-  key: fs.readFileSync('/etc/ssl/ssl.key')
+  cert: fs.readFileSync('../cert.pem'),
+  key: fs.readFileSync('../privkey.pem')
 })
 
 // Create websocket server.
