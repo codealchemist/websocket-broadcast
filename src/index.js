@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+const https = require('https')
+const fs = require('fs')
 const WebSocket = require('ws')
 const uuid = require('uuid/v1')
 const chalk = require('chalk')
@@ -14,8 +16,13 @@ clear()
 printii()
 cursor.hide()
 
+const server = https.createServer({
+  cert: fs.readFileSync('/etc/ssl/ssl.crt'),
+  key: fs.readFileSync('/etc/ssl/ssl.key')
+})
+
 // Create websocket server.
-const wss = new WebSocket.Server({ port }, onListening)
+const wss = new WebSocket.Server({ server })
 
 // Will map clients to channels based on the URL path.
 const channels = {}
@@ -52,6 +59,8 @@ wss.on('connection', (ws) => {
     broadcast({ ws, channelId, message })
   })
 })
+
+server.listen(port, onListening)
 
 //------------------------------------------------------------------------------
 
