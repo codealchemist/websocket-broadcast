@@ -1,6 +1,6 @@
 {
   "name": "websocket-broadcast",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Broadcasts received messages over websockets.",
   "main": "src/index.js",
   "bin": {
