@@ -1,4 +1,5 @@
 # websocket-broadcast
+
 Broadcasts received messages over websockets.
 
 ## Install
@@ -13,7 +14,7 @@ The client who sends a message doesn't receive it back, it's sent to the other c
 
 ## Client IDs
 
-After each clients connects it will get a 
+After each clients connects it will get a
 [UUID V1](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_.28date-time_and_MAC_address.29)
 from **websocket-broadcast**.
 Useful if you need to identify your clients with a unique ID.
@@ -37,6 +38,12 @@ Note that disconnection messages won't be sent when `--noid` is set.
 You can set a custom port by using the `-p` param:
 
 `websocket-broadcast -p 8080`
+
+## SSL support
+
+If you need a secure connection (wss) simply pass your credential and key to use them:
+
+`websocket-broadcast --cert /path/to/cert.pem --key path/to/key.pem`
 
 ## Logging
 

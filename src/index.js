@@ -11,19 +11,29 @@ const args = require('minimist')(process.argv.slice(2))
 const port = process.env.PORT || args.port || args.p || 3333
 const verbose = !args.nolog
 const identify = !args.noid
+const { cert } = args
+const { key } = args
+let wss
 
 clear()
 printii()
 cursor.hide()
 
-// TODO: conditionally use SSL.
-const server = https.createServer({
-  cert: fs.readFileSync('../cert.pem'),
-  key: fs.readFileSync('../privkey.pem')
-})
-
 // Create websocket server.
-const wss = new WebSocket.Server({ server })
+if (cert && key) {
+  // SSL.
+  log(chalk.yellow('🔐 Using SSL'))
+  const server = https.createServer({
+    cert: fs.readFileSync(cert),
+    key: fs.readFileSync(key)
+  })
+
+  wss = new WebSocket.Server({ server })
+  server.listen(port, onListening)
+} else {
+  // Non SSL.
+  wss = new WebSocket.Server({ port }, onListening)
+}
 
 // Will map clients to channels based on the URL path.
 const channels = {}
@@ -43,7 +53,7 @@ wss.on('connection', (ws) => {
     if (verbose) log(`NEW client: ID: ${chalk.white(id)} @${chalk.blue(host)}`)
 
     // Send UUID to client.
-    send(ws, {type: 'uuid', data: id})
+    send(ws, { type: 'uuid', data: id })
 
     ws.on('close', (ws) => {
       if (verbose) log(`Client ${id} DISCONNECTED`)
@@ -61,17 +71,17 @@ wss.on('connection', (ws) => {
   })
 })
 
-server.listen(port, onListening)
+function getWss() {}
 
-//------------------------------------------------------------------------------
-
-function onListening () {
-  const noidMsg = identify? '' : ` --${chalk.white('noid')}`
-  const nologMsg = verbose? '' : ` --${chalk.white('nolog')}`
-  console.log(chalk.yellow(`LISTENING on PORT ${chalk.white(port)}${noidMsg}${nologMsg}`))
+function onListening() {
+  const noidMsg = identify ? '' : ` --${chalk.white('noid')}`
+  const nologMsg = verbose ? '' : ` --${chalk.white('nolog')}`
+  console.log(
+    chalk.yellow(`LISTENING on PORT ${chalk.white(port)}${noidMsg}${nologMsg}`)
+  )
 }
 
-function broadcast ({ ws, channelId, message }) {
+function broadcast({ ws, channelId, message }) {
   if (!channels[channelId]) {
     log(`Channel ${channelId} does not exist!`)
     return
@@ -83,31 +93,31 @@ function broadcast ({ ws, channelId, message }) {
     return
   }
 
-  channels[channelId].map(client => {
+  channels[channelId].map((client) => {
     if (client === ws) return // Skipping message sender.
     if (client.readyState !== WebSocket.OPEN) return
     client.send(message, (error) => {}) // eslint-disable-line
   })
 }
 
-function send (ws, message) {
+function send(ws, message) {
   const data = JSON.stringify(message)
   if (ws.readyState !== WebSocket.OPEN) return
   ws.send(data, (error) => {}) // eslint-disable-line
 }
 
-function log () {
+function log() {
   // Single line basic info.
   if (!verbose) {
     const message = Array.prototype.join.call(arguments, ' ')
     try {
       process.stdout.clearLine()
-    } catch(e) {}
+    } catch (e) {}
     process.stdout.write(`\r${message}\r`)
     return
   }
 
-  const ts = (new Date()).toISOString()
+  const ts = new Date().toISOString()
   console.log(`${chalk.dim(ts)}:`, ...arguments)
 }
 
