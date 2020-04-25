@@ -69,6 +69,10 @@ wss.on('connection', (ws, req) => {
     if (verbose) log(`MSG from ${host}`, chalk.gray(message))
     broadcast({ ws, channelId, message })
   })
+
+  ws.on('error', (err) => {
+    log(chalk.red('ERROR:'), err)
+  })
 })
 
 function getWss() {}
