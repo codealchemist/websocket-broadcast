@@ -38,16 +38,16 @@ if (cert && key) {
 // Will map clients to channels based on the URL path.
 const channels = {}
 
-wss.on('connection', (ws) => {
+wss.on('connection', (ws, req) => {
   log(`Total clients: ${chalk.white(wss.clients.size)}`)
-  const channelId = ws.upgradeReq.url.substring(1)
+  const { host } = req.headers
+  const channelId = req.url.substring(1)
   log(`CHANNEL: ${chalk.white(channelId)}`)
 
   // Add client to channel.
   channels[channelId] = channels[channelId] || []
   channels[channelId].push(ws)
 
-  const host = ws.upgradeReq.headers.host
   if (identify) {
     const id = uuid()
     if (verbose) log(`NEW client: ID: ${chalk.white(id)} @${chalk.blue(host)}`)
