@@ -32,7 +32,7 @@
     "minimist": "^1.2.0",
     "printii": "^1.0.0",
     "uuid": "^3.0.1",
-    "ws": "^2.3.1"
+    "ws": "^3.3.1"
   },
   "devDependencies": {
     "standard-focus": "^1.1.2"
